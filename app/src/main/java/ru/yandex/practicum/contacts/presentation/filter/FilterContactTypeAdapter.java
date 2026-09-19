@@ -17,21 +17,23 @@ import java.util.function.Consumer;
 
 import ru.yandex.practicum.contacts.databinding.ItemFilterBinding;
 import ru.yandex.practicum.contacts.model.ContactType;
+import ru.yandex.practicum.contacts.presentation.base.BaseListDiffCallback;
 import ru.yandex.practicum.contacts.presentation.filter.model.FilterContactType;
-import ru.yandex.practicum.contacts.presentation.filter.model.FilterContactTypeUi;
+import ru.yandex.practicum.contacts.presentation.filter.model.FilterContactTypeUI;
+import ru.yandex.practicum.contacts.presentation.filter.model.FilterContactTypeUI;
 import ru.yandex.practicum.contacts.utils.model.ContactTypeUtils;
 import ru.yandex.practicum.contacts.utils.model.FilterContactTypeUtils;
 
 public class FilterContactTypeAdapter extends RecyclerView.Adapter<FilterContactTypeAdapter.ViewHolder> {
 
-    private final AsyncListDiffer<FilterContactTypeUi> differ = new AsyncListDiffer<>(
+    private final AsyncListDiffer<FilterContactTypeUI> differ = new AsyncListDiffer<>(
             new AdapterListUpdateCallback(this),
-            new AsyncDifferConfig.Builder<>(new ListDiffCallback()).build()
+            new AsyncDifferConfig.Builder<>(new BaseListDiffCallback<FilterContactTypeUI>()).build()
     );
 
-    private final Consumer<FilterContactTypeUi> clickListener;
+    private final Consumer<FilterContactTypeUI> clickListener;
 
-    public FilterContactTypeAdapter(Consumer<FilterContactTypeUi> clickListener) {
+    public FilterContactTypeAdapter(Consumer<FilterContactTypeUI> clickListener) {
         this.clickListener = clickListener;
     }
 
@@ -53,7 +55,7 @@ public class FilterContactTypeAdapter extends RecyclerView.Adapter<FilterContact
         return differ.getCurrentList().size();
     }
 
-    public void setItems(List<FilterContactTypeUi> items) {
+    public void setItems(List<FilterContactTypeUI> items) {
         differ.submitList(items);
     }
 
@@ -61,16 +63,16 @@ public class FilterContactTypeAdapter extends RecyclerView.Adapter<FilterContact
 
         private final ItemFilterBinding binding;
 
-        private FilterContactTypeUi data;
+        private FilterContactTypeUI data;
 
-        public ViewHolder(@NonNull ItemFilterBinding binding, Consumer<FilterContactTypeUi> clickListener) {
+        public ViewHolder(@NonNull ItemFilterBinding binding, Consumer<FilterContactTypeUI> clickListener) {
             super(binding.getRoot());
             this.binding = binding;
             this.binding.getRoot().setOnClickListener(v -> clickListener.accept(data));
             this.binding.selected.setOnClickListener(v -> clickListener.accept(data));
         }
 
-        public void bind(FilterContactTypeUi data) {
+        public void bind(FilterContactTypeUI data) {
             this.data = data;
             final int sortResId = FilterContactTypeUtils.getStringRes(data.getContactType());
             binding.text.setText(sortResId);
@@ -86,21 +88,21 @@ public class FilterContactTypeAdapter extends RecyclerView.Adapter<FilterContact
         }
     }
 
-    static class ListDiffCallback extends DiffUtil.ItemCallback<FilterContactTypeUi> {
+    static class ListDiffCallback extends DiffUtil.ItemCallback<FilterContactTypeUI> {
 
         @Override
-        public boolean areItemsTheSame(@NonNull FilterContactTypeUi oldItem, @NonNull FilterContactTypeUi newItem) {
+        public boolean areItemsTheSame(@NonNull FilterContactTypeUI oldItem, @NonNull FilterContactTypeUI newItem) {
             return oldItem.getContactType() == newItem.getContactType();
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull FilterContactTypeUi oldItem, @NonNull FilterContactTypeUi newItem) {
+        public boolean areContentsTheSame(@NonNull FilterContactTypeUI oldItem, @NonNull FilterContactTypeUI newItem) {
             return oldItem.equals(newItem);
         }
 
         @Nullable
         @Override
-        public Object getChangePayload(@NonNull FilterContactTypeUi oldItem, @NonNull FilterContactTypeUi newItem) {
+        public Object getChangePayload(@NonNull FilterContactTypeUI oldItem, @NonNull FilterContactTypeUI newItem) {
             return newItem;
         }
     }

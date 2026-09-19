@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         viewModel.onBackPressed();
     }
 
-    private void updateContacts(List<ContactUi> contacts) {
+    private void updateContacts(List<ContactUI> contacts) {
         adapter.setItems(contacts, () -> binding.recycler.scrollToPosition(0));
         if (contacts.size() > 0) {
             binding.recycler.setVisibility(View.VISIBLE);

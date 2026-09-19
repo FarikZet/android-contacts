@@ -14,7 +14,7 @@ import java.util.Set;
 import ru.yandex.practicum.contacts.R;
 import ru.yandex.practicum.contacts.model.ContactType;
 import ru.yandex.practicum.contacts.presentation.base.BaseBottomSheetDialogFragment;
-import ru.yandex.practicum.contacts.presentation.filter.model.FilterContactTypeUi;
+import ru.yandex.practicum.contacts.presentation.filter.model.FilterContactTypeUI;
 import ru.yandex.practicum.contacts.ui.widget.DividerItemDecoration;
 
 public class FilterContactTypeDialogFragment extends BaseBottomSheetDialogFragment<FilterContactTypeViewModel> {
@@ -49,7 +49,7 @@ public class FilterContactTypeDialogFragment extends BaseBottomSheetDialogFragme
         viewModel.init(defaultFilterContactTypes);
     }
 
-    private void updateFilterContactTypes(List<FilterContactTypeUi> filterTypes) {
+    private void updateFilterContactTypes(List<FilterContactTypeUI> filterTypes) {
         adapter.setItems(filterTypes);
     }
 

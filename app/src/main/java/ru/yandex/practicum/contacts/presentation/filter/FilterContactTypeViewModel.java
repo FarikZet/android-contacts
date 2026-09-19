@@ -13,14 +13,14 @@ import java.util.stream.Collectors;
 import ru.yandex.practicum.contacts.model.ContactType;
 import ru.yandex.practicum.contacts.presentation.base.BaseBottomSheetViewModel;
 import ru.yandex.practicum.contacts.presentation.filter.model.FilterContactType;
-import ru.yandex.practicum.contacts.presentation.filter.model.FilterContactTypeUi;
+import ru.yandex.practicum.contacts.presentation.filter.model.FilterContactTypeUI;
 import ru.yandex.practicum.contacts.utils.model.ContactTypeUtils;
 import ru.yandex.practicum.contacts.utils.model.FilterContactTypeUtils;
 
 public class FilterContactTypeViewModel extends BaseBottomSheetViewModel {
 
     private final UiState uiState = new UiState();
-    private final MutableLiveData<List<FilterContactTypeUi>> filterContactTypesLiveDate = new MutableLiveData<>();
+    private final MutableLiveData<List<FilterContactTypeUI>> filterContactTypesLiveDate = new MutableLiveData<>();
     private final MutableLiveData<UiState> uiStateLiveDate = new MutableLiveData<>();
 
     private Set<ContactType> defaultFilterContactTypes;
@@ -33,7 +33,7 @@ public class FilterContactTypeViewModel extends BaseBottomSheetViewModel {
         updateUiState();
     }
 
-    public void onFilterTypeItemClick(FilterContactTypeUi filterContactType) {
+    public void onFilterTypeItemClick(FilterContactTypeUI filterContactType) {
         updateSelectedContactTypes(filterContactType.getContactType());
         updateFilterContactTypes();
         updateUiState();
@@ -52,7 +52,7 @@ public class FilterContactTypeViewModel extends BaseBottomSheetViewModel {
         updateUiState();
     }
 
-    public MutableLiveData<List<FilterContactTypeUi>> getFilterContactTypesLiveDate() {
+    public MutableLiveData<List<FilterContactTypeUI>> getFilterContactTypesLiveDate() {
         return filterContactTypesLiveDate;
     }
 
@@ -61,11 +61,11 @@ public class FilterContactTypeViewModel extends BaseBottomSheetViewModel {
     }
 
     private void updateFilterContactTypes() {
-        final List<FilterContactTypeUi> filterContactTypesUi = new ArrayList<>();
+        final List<FilterContactTypeUI> filterContactTypesUi = new ArrayList<>();
         final boolean allSelected = selectedFilterContactTypes.size() == ContactType.values().length;
-        filterContactTypesUi.add(new FilterContactTypeUi(FilterContactType.ALL, allSelected));
-        final List<FilterContactTypeUi> collect = Arrays.stream(ContactType.values())
-                .map(contactType -> new FilterContactTypeUi(
+        filterContactTypesUi.add(new FilterContactTypeUI(FilterContactType.ALL, allSelected));
+        final List<FilterContactTypeUI> collect = Arrays.stream(ContactType.values())
+                .map(contactType -> new FilterContactTypeUI(
                         ContactTypeUtils.toFilterContactType(contactType),
                         selectedFilterContactTypes.contains(contactType)
                 ))

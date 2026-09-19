@@ -23,12 +23,13 @@ import java.util.Objects;
 
 import ru.yandex.practicum.contacts.R;
 import ru.yandex.practicum.contacts.databinding.ItemContactBinding;
+import ru.yandex.practicum.contacts.presentation.base.BaseListDiffCallback;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
 
-    private final AsyncListDiffer<ContactUi> differ = new AsyncListDiffer<>(
+    private final AsyncListDiffer<ContactUI> differ = new AsyncListDiffer<>(
             new AdapterListUpdateCallback(this),
-            new AsyncDifferConfig.Builder<>(new ListDiffCallback()).build()
+            new AsyncDifferConfig.Builder<>(new BaseListDiffCallback<ContactUI>()).build()
     );
 
     @NonNull
@@ -49,11 +50,11 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         return differ.getCurrentList().size();
     }
 
-    public void setItems(List<ContactUi> items) {
+    public void setItems(List<ContactUI> items) {
         differ.submitList(items);
     }
 
-    public void setItems(List<ContactUi> items, @NonNull Runnable callback) {
+    public void setItems(List<ContactUI> items, @NonNull Runnable callback) {
         differ.submitList(items, callback);
     }
 
@@ -68,7 +69,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             });
         }
 
-        public void bind(ContactUi contact) {
+        public void bind(ContactUI contact) {
             binding.name.setText(contact.getName());
             loadAvatar(contact);
 
@@ -79,7 +80,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             binding.contactType.setData(contact.getTypes());
         }
 
-        private void loadAvatar(ContactUi contact) {
+        private void loadAvatar(ContactUI contact) {
             final Context context = binding.contactPhoto.getContext();
             final Drawable drawable = Objects.requireNonNull(ContextCompat.getDrawable(context, R.drawable.ic_avatar));
             drawable.setTint(ContextCompat.getColor(context, R.color.color_light_grey));
@@ -93,21 +94,21 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         }
     }
 
-    static class ListDiffCallback extends DiffUtil.ItemCallback<ContactUi> {
+    static class ListDiffCallback extends DiffUtil.ItemCallback<ContactUI> {
 
         @Override
-        public boolean areItemsTheSame(@NonNull ContactUi oldItem, @NonNull ContactUi newItem) {
+        public boolean areItemsTheSame(@NonNull ContactUI oldItem, @NonNull ContactUI newItem) {
             return oldItem.hashCode() == newItem.hashCode();
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull ContactUi oldItem, @NonNull ContactUi newItem) {
+        public boolean areContentsTheSame(@NonNull ContactUI oldItem, @NonNull ContactUI newItem) {
             return oldItem.equals(newItem);
         }
 
         @Nullable
         @Override
-        public Object getChangePayload(@NonNull ContactUi oldItem, @NonNull ContactUi newItem) {
+        public Object getChangePayload(@NonNull ContactUI oldItem, @NonNull ContactUI newItem) {
             return newItem;
         }
     }

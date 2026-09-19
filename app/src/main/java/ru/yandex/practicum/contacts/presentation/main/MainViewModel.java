@@ -37,7 +37,7 @@ public class MainViewModel extends AndroidViewModel {
     private final ContactMerger contactMerger;
     private final ContactUiMapper uiMapper;
 
-    private final MutableLiveData<List<ContactUi>> contactsLiveDate = new MutableLiveData<>();
+    private final MutableLiveData<List<ContactUI>> contactsLiveDate = new MutableLiveData<>();
     private final MutableLiveData<UiState> uiStateLiveDate = new MutableLiveData<>();
 
     private final MainState state = new MainState();
@@ -52,7 +52,7 @@ public class MainViewModel extends AndroidViewModel {
         ThreadUtils.runAsync(this::initLoading);
     }
 
-    public LiveData<List<ContactUi>> getContactsLiveDate() {
+    public LiveData<List<ContactUI>> getContactsLiveDate() {
         return contactsLiveDate;
     }
 
@@ -135,7 +135,7 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     private void mapContactsAndUpdate() {
-        final List<ContactUi> uiContacts = state.getAllContacts().stream()
+        final List<ContactUI> uiContacts = state.getAllContacts().stream()
                 .filter(contact -> MergedContactUtils.contains(contact, state.getQuery()))
                 .filter(contact -> MergedContactUtils.contains(contact, state.getContactTypes()))
                 .sorted(createComparator(state.getSortType()))
